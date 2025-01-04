@@ -1,3 +1,5 @@
+#!/bin/bash
+
 read -r -p "Nhập URL của trang thông tin phim: " main_url
 
 if [[ -z "$main_url" ]]; then
@@ -6,7 +8,6 @@ if [[ -z "$main_url" ]]; then
 fi
 
 read -r -p "Nhập tên file đầu ra (phải có .txt ở cuối): " output_file
-
 
 if [[ ! "$output_file" =~ \.txt$ ]]; then
   echo "Lỗi: Tên file đầu ra phải kết thúc bằng .txt"
@@ -22,12 +23,24 @@ if [[ -z "$main_title" ]]; then
   main_title="Không tìm thấy tiêu đề"
 fi
 
+
 episode_links=$(echo "$main_page" |
   sed -n '/<div class="list-item-episode scroll-bar">/,/<\/div>/p' |
   grep -o '<a[^>]*href=['"'"'"][^'"'"'"]*['"'"'"][^>]*>' |
   sed -E 's/.*href=['"'"'"]([^'"'"'"]*)['"'"'"].*/\1/')
 
-while IFS= read -r episode_link; do
+episode_titles=$(echo "$main_page" | awk '
+/<div class="list-item-episode scroll-bar">/ { in_desired_div = 1 }
+/<\/div>/ { in_desired_div = 0 }
+in_desired_div && /<span>/ {
+  gsub(/<[^>]*>/, "", $0);
+  gsub(/^[[:space:]]+|[[:space:]]+$/, "", $0); # Xóa khoảng trắng đầu và cuối dòng
+  print
+}
+')
+
+# Sử dụng paste và while loop để kết hợp tiêu đề tập và link tập
+paste <(echo "$episode_titles") <(echo "$episode_links") | while IFS=$'\t' read -r episode_title episode_link; do
   echo "Processing: $episode_link"
 
   episode_page=$(curl -s "$episode_link")
@@ -36,13 +49,13 @@ while IFS= read -r episode_link; do
     sed -n '/<div id="video-player">/,/<\/div>/p' |
     grep -oP 'src="\K[^"]+')
 
-  echo "Title: $main_title"
-  echo "Video URL: $video_url"
+  echo "$main_title: $episode_title: $video_url"
+  echo "$main_title: $episode_title: $video_url" >> "$output_file"
 
-  echo "$main_title: $video_url" >> "$output_file"
   echo "---" >> "$output_file"
-
   echo "---"
-done <<< "$episode_links"
+
+done
+
 
 echo "Danh sách URL video đã được lưu vào file: $output_file"
