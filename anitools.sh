@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # URL gốc của trang web
-base_url="https://animehay.name/the-loai/anime-1/trang-"
+base_url="https://animehay.red/the-loai/anime-1/trang-"
 output_file="anime_links.txt"
 
 # Hàm để lấy các liên kết từ một trang cụ thể
@@ -11,10 +11,14 @@ get_links_from_page() {
 
   echo "Đang xử lý trang: $url"
 
-  curl -s "$url" |
-    grep '<div class="movies-list">' -A 500 |
-    grep '<a href="' |
-    sed 's/.*href="\([^"]*\)".*/\1/g' >> "$output_file"
+  # Lấy nội dung HTML của trang
+  html_content=$(curl -s "$url")
+
+  # Lọc ra khối <div class="movies-list">
+  movies_list=$(echo "$html_content" | grep '<div class="movies-list">' -A 500)
+
+  # Lấy tất cả các liên kết trong khối và lọc ra những liên kết có chứa "/thong-tin-phim/"
+  echo "$movies_list" | grep -oP '<a href="\K[^"]+' | grep '/thong-tin-phim/' >> "$output_file"
 }
 
 # Lấy số trang cuối từ thuộc tính javascript:goPage()
