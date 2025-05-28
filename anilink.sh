@@ -1,4 +1,4 @@
-#!/binbash
+#!/bin/bash
 
 # ====[ 💡 THIẾT LẬP BIẾN "VŨ TRỤ" ]====
 # File chứa danh sách URL chính của các bộ phim
