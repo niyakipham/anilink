@@ -4,13 +4,13 @@
 # File chứa danh sách URL chính của các bộ phim
 url_file="data.txt"
 # Tên file CSV đầu ra do người dùng nhập
-output_file=""
+output_file="anime.csv"
 # Tên file log - "Nhật ký hành trình"
 log_file="thu_hoach_video_$(date +'%Y%m%d_%H%M%S').log"
 # Số lần thử lại tối đa cho mỗi yêu cầu curl
 max_retries=3
 # Thời gian chờ giữa các lần thử lại (giây)
-retry_delay=5
+retry_delay=2
 # User-Agent "giả danh" trình duyệt xịn
 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 # Số lượng tác vụ song song tối đa cho xargs khi xử lý link tập
