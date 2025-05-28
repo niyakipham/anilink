@@ -1,0 +1,55 @@
+# [[⚡🌌 WORKFLOW "XỬ ĐẸP" FILE BASH CỦA HOÀNG - PHIÊN BẢN HẸN GIỜ THẦN THÁNH 🌌⚡]]
+
+# 1. Tên của Workflow (Hoàng có thể tùy chỉnh!)
+name: "🕰️ Chạy Script Bash Theo Lịch Cực Chuẩn"
+
+# 2. Điều Kiện Kích Hoạt Workflow (Triggers)
+on:
+  # Kích hoạt khi có push lên nhánh 'main'
+  push:
+    branches: [ main ]
+  # Hoặc kích hoạt thủ công qua tab "Actions" trên GitHub (workflow_dispatch)
+  workflow_dispatch:
+
+  # ✨ LỊCH TRÌNH HOẠT ĐỘNG ĐỊNH KỲ (Cron Schedule) THEO YÊU CẦU CỦA HOÀNG ✨
+  schedule:
+    # --------------------------------------------------------------------
+    # ⏰ KHUNG GIỜ "TRĂNG TREO ĐẦU NÚI" (00:00 - 06:00 UTC) ⏰
+    # Hoàng lưu ý: GitHub Actions sử dụng múi giờ UTC cho cron.
+    # Nếu Hoàng muốn canh giờ Việt Nam (UTC+7), Hoàng cần điều chỉnh nha!
+    # Ví dụ: 00:00 UTC là 07:00 sáng Việt Nam.
+    # --------------------------------------------------------------------
+    - cron: '0 0 * * *'  # Chạy lúc 00:00 UTC hàng ngày (Sớm Tinh Mơ Cùng Sương Mai 🌫️)
+    - cron: '0 3 * * *'  # Chạy lúc 03:00 UTC hàng ngày (Khi Thành Phố Còn Say Giấc 😴)
+    # --------------------------------------------------------------------
+    # 🌅 KHUNG GIỜ "CHIM HÓT LÍU LO" (06:00 - 12:00 UTC) 🌅
+    # --------------------------------------------------------------------
+    - cron: '0 6 * * *'  # Chạy lúc 06:00 UTC hàng ngày (Bình Minh Rực Rỡ Gọi Mời ☀️)
+    - cron: '0 9 * * *'  # Chạy lúc 09:00 UTC hàng ngày (Giữa Buổi Sáng Năng Động 💪)
+    # --------------------------------------------------------------------
+    # ☀️ KHUNG GIỜ "NẮNG VÀNG TRẢI LỤA" (12:00 - 18:00 UTC) ☀️
+    # --------------------------------------------------------------------
+    - cron: '0 12 * * *' # Chạy lúc 12:00 UTC hàng ngày (Giờ Nghỉ Trưa Yên Bình 🍜)
+    - cron: '0 15 * * *' # Chạy lúc 15:00 UTC hàng ngày (Xế Chiều Dịu Dàng ☕)
+    # --------------------------------------------------------------------
+    # 🌙 KHUNG GIỜ "NGÀN SAO LẤP LÁNH" (18:00 - 24:00 UTC) 🌙
+    # --------------------------------------------------------------------
+    - cron: '0 18 * * *' # Chạy lúc 18:00 UTC hàng ngày (Hoàng Hôn Lãng Mạn Buông 🌇)
+    - cron: '0 21 * * *' # Chạy lúc 21:00 UTC hàng ngày (Đêm Về Cùng Những Giấc Mơ 🌌)
+
+# 3. Các "Nhiệm Vụ Siêu Phàm" (Jobs)
+jobs:
+  run_my_bash_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "✨ Lấy Mã Nguồn Từ Kho Về"
+        uses: actions/checkout@v4
+
+      - name: "🔑 Trao Quyền Năng Cho Script"
+        run: chmod +x ./my_script.sh  # Giả sử file script của Hoàng là 'my_script.sh'
+
+      - name: "🚀 Thực Thi my_script.sh"
+        run: ./my_script.sh
+
+      - name: "🎉 Hoàn Tất Xuất Sắc!"
+        run: echo "🔥 Script hẹn giờ của Hoàng đã 'bùng nổ' thành công mỹ mãn!"
