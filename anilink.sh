@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # File chứa danh sách URL
-url_file="urls.txt"
+url_file="data.txt"
 
 # Kiểm tra xem file URL có tồn tại không
 if [[ ! -f "$url_file" ]]; then
