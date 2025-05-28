@@ -1,7 +1,7 @@
 # [[⚡🌌 WORKFLOW "XỬ ĐẸP" FILE BASH CỦA HOÀNG - PHIÊN BẢN HẸN GIỜ THẦN THÁNH 🌌⚡]]
 
 # 1. Tên của Workflow (Hoàng có thể tùy chỉnh!)
-name: "🕰️ Chạy Script Bash Theo Lịch Cực Chuẩn"
+name: animehay"
 
 # 2. Điều Kiện Kích Hoạt Workflow (Triggers)
 on:
@@ -42,14 +42,14 @@ jobs:
   run_my_bash_script:
     runs-on: ubuntu-latest
     steps:
-      - name: "✨ Lấy Mã Nguồn Từ Kho Về"
+      - name: "animehay attactk"
         uses: actions/checkout@v4
 
       - name: "🔑 Trao Quyền Năng Cho Script"
-        run: chmod +x ./my_script.sh  # Giả sử file script của Hoàng là 'my_script.sh'
+        run: chmod +x ./run.sh  # Giả sử file script của Hoàng là 'my_script.sh'
 
-      - name: "🚀 Thực Thi my_script.sh"
-        run: ./my_script.sh
+      - name: "🚀 Thực Thi run.sh"
+        run: ./run.sh
 
       - name: "🎉 Hoàn Tất Xuất Sắc!"
         run: echo "🔥 Script hẹn giờ của Hoàng đã 'bùng nổ' thành công mỹ mãn!"
