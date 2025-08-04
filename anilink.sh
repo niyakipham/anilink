@@ -1,27 +1,6 @@
 #!/bin/bash
 
-# =================================================================
-# === ANIME DOWNLOADER & DATA EXTRACTOR BY HOÀNG & TRANG AI      ===
-# === Version 2.0 - Tối ưu hóa ghi CSV từng dòng cho mỗi tập    ===
-# =================================================================
-#
-# CÔNG CỤ NÀY SẼ:
-# 1. Đọc từng URL từ `data.txt`.
-# 2. Tạo một file `anime.csv` để lưu kết quả (mỗi tập 1 dòng).
-# 3. Với mỗi URL phim:
-#    a. Lấy tiêu đề phim, tạo thư mục từ tiêu đề đó.
-#    b. Lưu trang chính vào thư mục (index.html).
-#    c. Trích xuất tất cả các link tập phim và tên tập.
-#    d. Với mỗi tập phim:
-#        i.   Truy cập link tập, tải về file HTML theo thứ tự giảm dần.
-#        ii.  Lấy link iframe.
-#        iii. Ghi một dòng mới vào `anime.csv` gồm:
-#             Tên_Phim, Tên_Tập, Link_Tập_Phim, Link_Iframe
-#
-# YÊU CẦU: Cần cài đặt curl và có file data.txt trong cùng thư mục.
-#
-# (づ ◕‿◕ )づ Let's goooooo!
-# -----------------------------------------------------------------
+
 
 # ======== BƯỚC 1: TẠO FILE CSV ========
 CSV_FILE="anime.csv"
