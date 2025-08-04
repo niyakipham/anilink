@@ -66,27 +66,26 @@ while IFS= read -r main_url || [[ -n "$main_url" ]]; do
     
     echo "🔍 Tìm thấy tổng cộng $num_episodes tập phim. Bắt đầu xử lý từng tập..."
     
-    # ======== BƯỚC 4 & 5: XỬ LÝ TỪNG TẬP VÀ GHI VÀO CSV ========
     for (( i=0; i<num_episodes; i++ )); do
         episode_path="${episode_links[$i]}"
         
-        # Xử lý URL tương đối nếu có
+    
         if [[ ! "$episode_path" == http* ]]; then
-            # Lấy base URL từ main_url (VD: https://animeabc.com)
+    
             base_url=$(echo "$main_url" | grep -oP '^(https?://[^/]+)')
             episode_url="$base_url$episode_path"
         else
             episode_url="$episode_path"
         fi
 
-        # Logic đặt tên file giảm dần: tập đầu tiên là file có số lớn nhất
+    
         file_number=$((num_episodes - i))
         
         episode_title="${episode_names[$i]}"
         
         echo "    ➡️  Đang xử lý '${episode_title}'..."
         
-        # Tải nội dung của trang tập phim
+    
         episode_content=$(curl -sL "$episode_url")
         if [ $? -ne 0 ]; then
             echo "    ❌ Lỗi khi tải '${episode_title}'. Bỏ qua."
@@ -95,7 +94,7 @@ while IFS= read -r main_url || [[ -n "$main_url" ]]; do
 
         echo "$episode_content" > "$sanitized_title/$file_number.html"
         
-        # Lấy link src từ thẻ iframe
+    
         iframe_src=$(echo "$episode_content" | grep -oP '<iframe id="ss_if"[^>]*src="\K[^"]+')
 
         if [ -z "$iframe_src" ]; then
@@ -103,11 +102,10 @@ while IFS= read -r main_url || [[ -n "$main_url" ]]; do
              iframe_src="NOT_FOUND"
         fi
 
-        # === ĐÂY LÀ SỰ THAY ĐỔI LỚN NHẤT ===
-        # Ghi ngay thông tin của tập này vào một dòng mới trong CSV
+    
         echo "\"$main_title\",\"$episode_title\",\"$episode_url\",\"$iframe_src\"" >> "$CSV_FILE"
 
-        # Tạm nghỉ 1 giây để tránh bị block IP :D
+    
         sleep 1
     done
 
@@ -116,5 +114,4 @@ while IFS= read -r main_url || [[ -n "$main_url" ]]; do
 
 done < "data.txt"
 
-echo "🎉 Woa! Mọi thứ đã hoàn tất! Hoàng hãy kiểm tra file '$CSV_FILE' và các thư mục nhé."
-echo "Cảm ơn Hoàng đã tin tưởng Trang nha! (〃＾▽＾〃)💖"
+echo "🎉 Mọi thứ đã hoàn tất! hãy kiểm tra file '$CSV_FILE' và các thư mục nhé."
