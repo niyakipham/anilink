@@ -1,21 +1,18 @@
 #!/bin/bash
 
-
-
-# ======== BƯỚC 1: TẠO FILE CSV ========
 CSV_FILE="anime.csv"
-# Thay đổi tiêu đề cột cho phù hợp với cấu trúc mới
+
 echo "anime_title,episode_title,episode_url,iframe_src" > "$CSV_FILE"
 echo "✅ Đã tạo file '$CSV_FILE' và sẵn sàng ghi dữ liệu."
 echo "---"
 
-# Kiểm tra xem file data.txt có tồn tại không
+
 if [ ! -f "data.txt" ]; then
-    echo "❌ Lỗi: Không tìm thấy file 'data.txt'. Hoàng hãy tạo file này và thêm link vào nhé."
+    echo "❌ Lỗi: Không tìm thấy file 'data.txt'. Hãy tạo file này và thêm link vào nhé."
     exit 1
 fi
 
-# ======== VÒNG LẶP CHÍNH: XỬ LÝ TỪNG LINK TỪ DATA.TXT ========
+
 while IFS= read -r main_url || [[ -n "$main_url" ]]; do
 
     if [ -z "$main_url" ]; then
@@ -24,17 +21,17 @@ while IFS= read -r main_url || [[ -n "$main_url" ]]; do
 
     echo "⚙️ Đang xử lý trang chính: $main_url"
     
-    # Tải nội dung trang chính
+    
     main_page_content=$(curl -sL "$main_url")
     if [ $? -ne 0 ]; then
         echo "❌ Lỗi: Không thể tải nội dung từ '$main_url'. Bỏ qua."
         continue
     fi
 
-    # ======== BƯỚC 2: LẤY TIÊU ĐỀ, TẠO THƯ MỤC VÀ LƯU FILE ========
+    
     main_title=$(echo "$main_page_content" | sed -n 's/.*<h1 class="heading_movie">\([^<]*\)<\/h1>.*/\1/p' | head -n 1)
     
-    # Dọn dẹp tên tiêu đề để tạo tên thư mục hợp lệ
+    
     sanitized_title=$(echo "$main_title" | sed 's/[[:space:]]*$//' | sed 's/[[:punct:]]//g' | sed 's/ /_/g')
 
     if [ -z "$sanitized_title" ]; then
@@ -48,20 +45,20 @@ while IFS= read -r main_url || [[ -n "$main_url" ]]; do
     echo "$main_page_content" > "$sanitized_title/index.html"
     echo "📁  Đã tạo thư mục và lưu index.html tại: '$sanitized_title'"
 
-    # ======== BƯỚC 3: TRÍCH XUẤT LINK CÁC TẬP PHIM ========
+    
     episode_block=$(echo "$main_page_content" | sed -n '/<div class="list-item-episode scroll-bar">/,/<\/div>/p')
     
-    # Trích xuất toàn bộ các link href từ thẻ <a> bên trong khối div đó
+    
     mapfile -t episode_links < <(echo "$episode_block" | grep -oP '<a href="\K[^"]+')
     
-    # Trích xuất tên các tập phim
+    
     mapfile -t episode_names < <(echo "$episode_block" | grep -oP '<span>\K[^<]+')
 
     num_episodes=${#episode_links[@]}
 
     if [ "$num_episodes" -eq 0 ]; then
         echo "🤔 Không tìm thấy tập phim nào cho '$main_title'."
-        # Vẫn lưu một dòng vào CSV để biết là phim này đã xử lý nhưng không có tập
+        
         echo "\"$main_title\",\"NO_EPISODES_FOUND\",\"\",\"\"" >> "$CSV_FILE"
         echo "---"
         continue
