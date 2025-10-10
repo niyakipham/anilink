@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # URL gốc của trang web
-base_url="https://animehay.ceo/the-loai/anime-1/trang-"
+base_url="https://animehay.life/the-loai/anime-1/trang-"
 output_file="data.txt"
 
 # Hàm để lấy các liên kết từ một trang cụ thể
