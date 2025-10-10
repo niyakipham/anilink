@@ -105,8 +105,6 @@ while IFS= read -r main_url || [[ -n "$main_url" ]]; do
     
         echo "\"$main_title\",\"$episode_title\",\"$episode_url\",\"$iframe_src\"" >> "$CSV_FILE"
 
-    
-        sleep 1
     done
 
     echo "✅ Hoàn tất xử lý tất cả các tập của '$main_title'."
